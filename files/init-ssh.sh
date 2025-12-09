@@ -2,7 +2,7 @@
 
 set -e
 
-# Change mirror when needed, eg:
+# Change the mirror when needed, eg:
 # sed -i 's/http:\/\/archive.ubuntu.com\/ubuntu\//http:\/\/nz.archive.ubuntu.com\/ubuntu\//' /etc/apt/sources.list
 
 # Update apt cache
