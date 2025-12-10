@@ -10,8 +10,6 @@ RUN init-dep.sh && rm /usr/bin/init-dep.sh && init-user.sh && rm /usr/bin/init-u
 # Initialize SSH server for connections when running on a remote server
 # Note: we bring up sshd in entrypoint.sh, if we need to bring up other services, please edit the entrypoint.sh accordingly
 COPY ./files/init-ssh.sh /usr/bin/
-# FIXME: Key file should be injeted by invoking entrypoint.sh, either using aguments or environment variable.
-COPY ./files/authorized_keys /home/$USERNAME/.ssh/authorized_keys
 COPY ./files/entrypoint.sh /
 RUN init-ssh.sh && rm /usr/bin/init-ssh.sh
 EXPOSE 22

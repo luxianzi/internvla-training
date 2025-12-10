@@ -32,13 +32,27 @@ InternVLA Training Container
 
 * Remote Connection
 
-  This container includes a built-in SSH server. You can expose its SSH port by adding a port-forwarding option to the docker run command.
+  This container includes a built-in SSH server. To enable SSH access, expose the SSH port by adding a port-forwarding option to your `docker run` command, and provide an `SSH_PUBLIC_KEY` environment variable. The entrypoint script will automatically install the key inside the container.
 
-  `docker run -p <Port number>:22 -v <Share Directory>:/home/worker/share -it --rm --gpus all <Container Tag>`
+  ```
+  docker run \
+    -e SSH_PUBLIC_KEY="<ssh-rsa AAA...>" \
+    -p <Port number>:22 \
+    -v <Share Directory>:/home/worker/share \
+    -it --rm --gpus all <Container Tag>
+  ```
 
-  You can then connect to the container over SSH using <Docker Host IP>:<Port number>. The private keys required for authentication are located in tools/ssh, and the username is worker. For example, if <Docker Host IP> is 172.31.64.97 and <Port number> is 2222, you can connect with the following command:
+  On Linux, you can generate an SSH key pair using ssh-keygen.
 
-  `ssh -i tools/ssh/training -p 2222 worker@172.31.64.97`
+  ```
+  ssh-keygen -t ed25519 -f <Key Storage Path>/<Key Name> -C "<Some Comment>"
+  ```
+
+  The content of `SSH_PUBLIC_KEY` can be found in the file `<Key Storage Path>/<Key Name>.pub`, and the file `<Key Storage Path>/<Key Name>` is the corresponding private key for the SSH client. You can connect to the container over SSH using `<Docker Host IP>:<Port number>` and username `worker`.
+
+  ```
+  ssh -i <Key Storage Path>/<Key Name> -p 2222 worker@<Docker Host IP>
+  ```
 
 * Using Dev Containers in VSCode
 
@@ -49,3 +63,5 @@ InternVLA Training Container
   By default, Dev Containers override the container’s entrypoint. Each time you open a terminal in VS Code, it will start as the root user. If you prefer to use the `worker` user instead, you can set "remoteUser" in `.devcontainer/devcontainer.json` to enforce this.
 
   You can also choose the Python executable from the created conda environment by searching for “Python: Select Interpreter” in the Command Palette.
+
+  If you are using VS Code on Windows but connecting docker containers on WSL, you need to open the folder in WSL before open it again in Dev Containers.

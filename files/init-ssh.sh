@@ -12,10 +12,6 @@ apt update --fix-missing
 apt install -y openssh-server gosu
 mkdir /var/run/sshd
 
-# Change the permisson for key file
-chmod 600 /home/$USERNAME/.ssh/authorized_keys
-chown $USERNAME:$USERNAME /home/$USERNAME/.ssh/authorized_keys
-
 # Change the dummy username in entrypoint.sh
 sed -i "s/DUMMY_USERNAME/${USERNAME}/g" /entrypoint.sh
 

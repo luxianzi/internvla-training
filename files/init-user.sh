@@ -10,7 +10,3 @@ adduser --uid $UID --disabled-password --gecos '' $USERNAME && echo "$USERNAME:$
 adduser $USERNAME sudo
 echo "export LANG=en_US.UTF-8" | cat >> /home/$USERNAME/.bashrc
 chown $USERNAME:$USERNAME /home/$USERNAME/.bashrc
-
-# Create the SSH directory in case we need to enable the OpenSSH server
-mkdir /home/$USERNAME/.ssh
-chown $USERNAME:$USERNAME /home/$USERNAME/.ssh
